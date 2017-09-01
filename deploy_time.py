@@ -2,11 +2,14 @@ import datetime
 
 import os
 
-from flask import Flask, request, jsonify, send_file, abort, render_template
+from flask import Flask, request, jsonify, send_file, render_template
 
 app = Flask(__name__)
 
 BASE_DIR = os.getenv("BASE_DIR", "/data")
+BIND_ADDR = os.getenv("BIND_ADDR", "0.0.0.0")
+PORT = os.getenv("PORT", "5000")
+
 
 @app.route('/deploy/<component>', methods=['POST'])
 def register_deploy(component):
@@ -77,4 +80,4 @@ def create_directory_structure(component):
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=BIND_ADDR, port=PORT)
