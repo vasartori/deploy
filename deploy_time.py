@@ -1,10 +1,12 @@
 import datetime
 
 import os
-from flask import Flask, request, jsonify
+
+from flask import Flask, request, jsonify, send_file, abort, render_template
 
 app = Flask(__name__)
 
+BASE_DIR = os.getenv("BASE_DIR", "/data")
 
 @app.route('/deploy/<component>', methods=['POST'])
 def register_deploy(component):
@@ -25,6 +27,20 @@ def register_deploy(component):
         return jsonify({"status": "Fail", "message": "Missing Fields"}), 422
 
 
+@app.route('/browse/', defaults={'rpath': ''})
+@app.route('/browse/<path:rpath>')
+def dir_listing(rpath):
+    abs_path = os.path.join(BASE_DIR, rpath)
+    x = os.walk(BASE_DIR)
+    files = list()
+    for i in x:
+        if len(i[2]) > 0:
+            files.append('/'.join([i[0], i[2][0]]).replace(BASE_DIR + '/', ''))
+    if os.path.isfile(abs_path):
+        return send_file(abs_path)
+    return render_template('files.j2', files=files)
+
+
 def store_data(deploy_data):
     try:
         path = create_directory_structure(component=deploy_data['component'])
@@ -32,8 +48,10 @@ def store_data(deploy_data):
         raise Exception("{}".format(e))
 
     with open('/'.join([path, 'deploy.csv']), 'a+') as csvfile:
-        w = ','.join([deploy_data['date'], deploy_data['component'],
-                      deploy_data['version'], deploy_data['user'],
+        w = ','.join([deploy_data['date'],
+                      deploy_data['component'],
+                      deploy_data['version'],
+                      deploy_data['user'],
                       deploy_data['status']])
         try:
             csvfile.write('\n'.join([w, '']))
@@ -44,9 +62,11 @@ def store_data(deploy_data):
 
 def create_directory_structure(component):
     date = datetime.datetime.now()
-    deploy_dir = os.getenv("DEPLOY_DATA", "/tmp")
-    path = '/'.join([deploy_dir, str(component), str(date.year),
-                     str(date.month), str(date.day)])
+    path = '/'.join([BASE_DIR,
+                     str(component),
+                     str(date.year),
+                     str(date.month),
+                     str(date.day)])
 
     if not os.path.exists(path):
         try:
