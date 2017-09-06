@@ -13,6 +13,10 @@ PORT = os.getenv("PORT", "5000")
 
 @app.route('/deploy/<component>', methods=['POST'])
 def register_deploy(component):
+
+    if request.headers['Content-Type'] != 'application/json':
+        return jsonify({"status": "Fail", "message": "Invalid Data"}), 400
+
     c = request.json
     c['date'] = str(datetime.datetime.now())
     c['component'] = component

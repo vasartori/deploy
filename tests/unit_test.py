@@ -19,6 +19,11 @@ class DeployTimeTestCase(unittest.TestCase):
                           content_type='application/json')
         self.assertEqual(r.status, '422 UNPROCESSABLE ENTITY')
 
+    def test_post_without_content_type(self):
+        d = '{"version": "2.3.4", "user": "lalala", "status": "OK"}'
+        r = self.app.post('/deploy/teste', data=d)
+        self.assertEqual(r.status, '400 BAD REQUEST')
+
     def test_invalid_status(self):
         d = '{"version": "2.3.4", "user": "lalala", "status": "XXX"}'
         r = self.app.post('/deploy/teste', data=d,
