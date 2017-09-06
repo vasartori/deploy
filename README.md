@@ -67,10 +67,12 @@ Um script chamado build.sh ajuda a efetuar a geração de novas versões.
     REPO=repository... VERSION=latest ./build.sh <OPTIONS>
     REPO = Registry to push the image [OPTIONAL]
     VERSION = Docker Image Tag [OPTIONAL]
+    VENV_PATH = Path to install virtualenv
     Options: 
       tests - Execute unit tests
       build - Build the docker image
       push - Push the docker image to registry
+      create-venv - Create python virtualenv and install required deps
       all - Run a test, if pass, make a build, and push
 
 
