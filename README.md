@@ -5,7 +5,7 @@ Como utilizar:
 --------------------
 Postar um Json (é obrigatório o uso do header de application/json) o endpoint http://`<IP>:<PORTA>/deploy/<nome_da_app>` no seguinte formato:
 
-        {
+    {
 	  "version": "2.3.4",
 	  "user": "lalala",
 	  "status": "OK"
@@ -14,7 +14,7 @@ Postar um Json (é obrigatório o uso do header de application/json) o endpoint 
 No campo status, é aceito somente **OK** ou **NOK**
 Se todos os campos forem respeitados, a aplicação responde com um "200 OK", caso contrário "422 UNPROCESSABLE ENTITY" com uma explicação do erro. Exemplo:
 
-        {
+    {
 	  "status": "Fail",
 	  "message": "Invalid Status"
 	}
