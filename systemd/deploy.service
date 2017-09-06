@@ -1,0 +1,10 @@
+[Unit]
+Description=Deploy Server
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/docker run --name deploy-server --net host --rm -v /var/lib/deploy-server:/data vasartori/deploy
+ExecStop=/usr/bin/docker stop deploy-server
+
+[Install]
+WantedBy=multi-user.target
