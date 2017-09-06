@@ -17,7 +17,7 @@ def register_deploy(component):
     if request.headers['Content-Type'] != 'application/json':
         return jsonify({"status": "Fail", "message": "Invalid Data"}), 400
 
-    c = request.json
+    c = request.get_json()
     c['date'] = str(datetime.datetime.now())
     c['component'] = component
     if "version" in c and "user" in c and "status" in c:
