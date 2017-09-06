@@ -37,7 +37,9 @@ Armazenamento
 Variáveis de Ambiente
 --------------------------------
 BASE_DIR - Diretório base onde os dados serão armazenados. Default:  "/data"
-BIND_ADDR - Endereó IP que o servidor irá fazer bind. Default: 0.0.0.0
+
+BIND_ADDR - Endereço IP que o servidor irá fazer bind. Default: 0.0.0.0
+
 PORT - Porta. Default: 5000
 
 Executando
@@ -76,3 +78,7 @@ Um script chamado build.sh ajuda a efetuar a geração de novas versões.
       all - Run a test, if pass, make a build, and push
 
 
+Start on boot
+=============
+No diretório systemd, há um unit file simples, porém funcional.
+Ele deve ser alterado de acordo com as necessidades, por exemplo o path com a persistencia de dados, a rede do docker, path da imagem no registry...
