@@ -51,7 +51,7 @@ activate_venv(){
 
 create_environment(){
     if [ $(uname) == "Linux" ]; then
-        apt-get install python3-venv || dnf install python3-virtualenv
+        sudo apt-get install python3-venv || sudo dnf install python3-virtualenv
         if [ $? -ne 0 ]; then
             echo "Apt-get failed or missing. You need install manually python3 virtualenv"
             exit 1
